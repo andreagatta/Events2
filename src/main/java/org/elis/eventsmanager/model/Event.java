@@ -16,7 +16,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String title;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
