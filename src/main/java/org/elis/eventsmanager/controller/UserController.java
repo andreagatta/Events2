@@ -1,10 +1,9 @@
 package org.elis.eventsmanager.controller;
 
 import jakarta.validation.Valid;
-import org.elis.eventsmanager.dto.request.BlockUserRequest;
-import org.elis.eventsmanager.dto.request.LoginRequest;
-import org.elis.eventsmanager.dto.request.SignupRequest;
+import org.elis.eventsmanager.dto.request.*;
 import org.elis.eventsmanager.dto.response.LoginResponse;
+import org.elis.eventsmanager.model.Event;
 import org.elis.eventsmanager.model.Role;
 import org.elis.eventsmanager.model.User;
 import org.elis.eventsmanager.security.TokenUtil;
@@ -16,10 +15,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static org.elis.eventsmanager.util.UtilPath.*;
 
 @RestController
-@RequestMapping("/user")
 public class UserController {
 
     @Autowired
@@ -47,6 +47,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping(UNBLOCK_USER)
+    public ResponseEntity<Void> unblockUser(@Valid @RequestBody UnblockUserRequest request, UsernamePasswordAuthenticationToken upat){
+        upat.getPrincipal();
+        service.unblockUser(request);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @PostMapping(SIGNUP)
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignupRequest request){
         service.signup(request);
@@ -58,4 +65,19 @@ public class UserController {
         User user = (User) token.getPrincipal();
         return ResponseEntity.status(HttpStatus.OK).body(user.getRole());
     }
+
+    @PostMapping("/customer/joinEvent")
+    public ResponseEntity<Void> joinEvent(@Valid @RequestBody JoinEventRequest request, UsernamePasswordAuthenticationToken token){
+        User user = (User) token.getPrincipal();
+        service.joinEvent(request, user);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/customer/getTickets")
+    public ResponseEntity<List<Event>> getTickets(UsernamePasswordAuthenticationToken token){
+        User user = (User) token.getPrincipal();
+        List<Event> events = service.getTickets(user);
+        return ResponseEntity.status(HttpStatus.OK).body(events);
+    }
+
 }

@@ -1,8 +1,12 @@
 package org.elis.eventsmanager.service.definition;
 
 import org.elis.eventsmanager.dto.request.*;
+import org.elis.eventsmanager.model.Event;
+import org.elis.eventsmanager.model.Ticket;
 import org.elis.eventsmanager.model.User;
 import org.hibernate.mapping.Join;
+
+import java.util.List;
 
 public interface UserService {
     //login
@@ -16,9 +20,11 @@ public interface UserService {
     //changeRole
     public void changeRole(ChangeRoleRequest request);
     //partecipa
-    public void joinEvent(JoinEventRequest request);
+    public void joinEvent(JoinEventRequest request, User user);
     //cancella prenotazione
     public void cancelTicket(CancelTicketRequest request);
+    //trova biglietti attivi
+    public List<Event> getTickets(User user);
     //trova utente da email
     public User getUserByEmail(String email);
 }

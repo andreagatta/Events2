@@ -8,13 +8,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class EditEventRequest {
-    @NotBlank(message = "you have to fill the email field")
-    @Email(message = "you have to insert a valid email")
-    private String email;
-    @NotBlank(message = "the password cannot be null or empty")
-    private String password;
-    @NotBlank(message = "title field can't be empty")
+    @NotBlank(message = "title of event to edit can't be blank")
+    private String titleToEdit;
     private String title;
-    @NotBlank(message = "DateTime field can't be empty")
-    private LocalDateTime dateTime;
+    private String dateTime;
 }
