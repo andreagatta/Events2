@@ -28,7 +28,6 @@ public class Event {
     @JoinColumn(nullable = false, updatable = false, name="creator_id")
     private User user;
 
-    @OneToMany(mappedBy = "event", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    List<Ticket> tickets = new ArrayList<>();
-
+    @ManyToMany(mappedBy = "tickets")
+    private List<User> participants = new ArrayList<>();
 }

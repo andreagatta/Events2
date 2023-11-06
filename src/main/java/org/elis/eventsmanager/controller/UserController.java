@@ -66,7 +66,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(user.getRole());
     }
 
-    @PostMapping("/customer/joinEvent")
+    @PostMapping("/all/user/joinEvent")
     public ResponseEntity<Void> joinEvent(@Valid @RequestBody JoinEventRequest request, UsernamePasswordAuthenticationToken token){
         User user = (User) token.getPrincipal();
         service.joinEvent(request, user);

@@ -38,10 +38,6 @@ public class FilterChainManager {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(builder.pattern("/admin/**")).hasRole(Role.ADMIN.toString())
                         .requestMatchers(builder.pattern("/customer/**")).hasRole(Role.CUSTOMER.toString())
-                        /*.requestMatchers("/login").permitAll()
-                        .requestMatchers("/all/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole(Role.ADMIN.toString())
-                        .requestMatchers("/customer/**").hasRole(Role.CUSTOMER.toString())*/
                         .anyRequest().permitAll()
                 ).sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(AbstractHttpConfigurer::disable)

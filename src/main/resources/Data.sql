@@ -3,3 +3,7 @@ insert into custom_user (cognome,email,is_blocked,nome,password,role) values ('s
 insert into custom_user (cognome,email,is_blocked,nome,password,role) values ('elia', 'antonio.elia@ricchione.it', false, 'antonio', 'Antonio03!', 0);
 insert into custom_user (cognome,email,is_blocked,nome,password,role) values ('castigliego', 'domenico.castigliego@chitemmorto.it', false, 'domenico', 'Domenico03!', 0);
 insert into custom_user (cognome,email,is_blocked,nome,password,role) values ('montaruli', 'manuel.montaruli@bifrocio.it', false, 'manuel', 'Manuel03!', 0);
+insert into event (creator_id, title, local_date_time) values ('1', 'attentato', '2024-10-23 10:45:00');
+insert into event (creator_id, title, local_date_time) values ('1', 'shiva', '2024-11-21 10:45:00');
+insert into event (creator_id, title, local_date_time) values ('1', 'gue', '2024-06-12 10:45:00');
+insert into event (creator_id, title, local_date_time) values ('1', 'sferaebbasta', '2024-10-10 10:45:00');

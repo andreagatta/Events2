@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/event")
 public class EventController {
 
     @Autowired
     EventService service;
 
-    @PostMapping("/admin/createEvent")
+    @PostMapping("/admin/event/createEvent")
     public ResponseEntity<Void> createEvent(@Valid @RequestBody CreateEventRequest request, UsernamePasswordAuthenticationToken token){
         User user = (User) token.getPrincipal();
         service.createEvent(request, user);
