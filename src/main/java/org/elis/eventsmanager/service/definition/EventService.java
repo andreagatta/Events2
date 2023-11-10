@@ -3,13 +3,15 @@ package org.elis.eventsmanager.service.definition;
 import org.elis.eventsmanager.dto.request.CreateEventRequest;
 import org.elis.eventsmanager.dto.request.DeleteEventRequest;
 import org.elis.eventsmanager.dto.request.EditEventRequest;
+import org.elis.eventsmanager.dto.response.EventDTO;
+import org.elis.eventsmanager.model.Event;
 import org.elis.eventsmanager.model.User;
 
+import java.util.List;
+
 public interface EventService {
-    //crea
-    public void createEvent(CreateEventRequest request, User user);
-    //modifica
-    public void editEvent(EditEventRequest request);
-    //elimina
-    public void deleteEvent(DeleteEventRequest request);
+    public Event findById(long id);
+    public List<Event> findAll();
+    public void save(EventDTO e);
+    public void update(Event e);
 }

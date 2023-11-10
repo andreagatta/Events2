@@ -1,43 +1,45 @@
 package org.elis.eventsmanager.controller;
 
-import jakarta.validation.Valid;
-import org.elis.eventsmanager.dto.request.CreateEventRequest;
-import org.elis.eventsmanager.dto.request.DeleteEventRequest;
-import org.elis.eventsmanager.dto.request.EditEventRequest;
+import org.elis.eventsmanager.dto.response.EventDTO;
+import org.elis.eventsmanager.mapper.EventMapper;
+import org.elis.eventsmanager.model.Event;
 import org.elis.eventsmanager.model.User;
 import org.elis.eventsmanager.service.definition.EventService;
+import org.mapstruct.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import static org.elis.eventsmanager.util.UtilPath.*;
 
 @RestController
-@RequestMapping("/event")
+@RequestMapping
 public class EventController {
 
     @Autowired
-    EventService service;
+    private EventMapper mapper;
 
-    @PostMapping("/admin/createEvent")
-    public ResponseEntity<Void> createEvent(@Valid @RequestBody CreateEventRequest request, UsernamePasswordAuthenticationToken token){
-        User user = (User) token.getPrincipal();
-        service.createEvent(request, user);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @Autowired
+    private EventService service;
+    @PostMapping(CREATE_EVENT)
+    ResponseEntity<Void> aggiungiEvento(@RequestBody EventDTO eDTO, UsernamePasswordAuthenticationToken token){
+        User u = (User) token.getPrincipal();
+        eDTO.setCreator_id(u.getId());
+        service.save(eDTO);
+        return ResponseEntity.status(200).build();
     }
 
-    @PostMapping("/admin/editEvent")
-    public ResponseEntity<Void> editEvent(@Valid @RequestBody EditEventRequest request, UsernamePasswordAuthenticationToken token){
-        service.editEvent(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @GetMapping
+    ResponseEntity<List<EventDTO>> findAll(){
+        List<EventDTO> l = mapper.toEventDTOList(service.findAll());
+        return ResponseEntity.status(200).body(l);
     }
 
-    @PostMapping("/admin/deleteEvent")
-    public ResponseEntity<Void> deleteEvent(@Valid @RequestBody DeleteEventRequest request, UsernamePasswordAuthenticationToken token){
-        service.deleteEvent(request);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    @GetMapping("/{id}")
+    ResponseEntity<EventDTO> findById(@PathVariable long id){
+        EventDTO e = mapper.toEventDTO(service.findById(id));
+        return ResponseEntity.status(200).body(e);
     }
 }

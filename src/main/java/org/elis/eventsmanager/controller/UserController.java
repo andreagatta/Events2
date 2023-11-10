@@ -3,6 +3,7 @@ package org.elis.eventsmanager.controller;
 import jakarta.validation.Valid;
 import org.elis.eventsmanager.dto.request.*;
 import org.elis.eventsmanager.dto.response.LoginResponse;
+import org.elis.eventsmanager.mapper.UserMapper;
 import org.elis.eventsmanager.model.Event;
 import org.elis.eventsmanager.model.Role;
 import org.elis.eventsmanager.model.User;
@@ -27,6 +28,8 @@ public class UserController {
 
     @Autowired
     TokenUtil tokenUtil;
+
+    UserMapper mapper;
 
     @PostMapping(LOGIN)
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginRequest request){
