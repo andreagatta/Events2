@@ -1,14 +1,11 @@
 package org.elis.eventsmanager.service.implementation;
 
-import jakarta.validation.constraints.Email;
 import org.elis.eventsmanager.dto.request.*;
 import org.elis.eventsmanager.exception.UserNotFoundException;
 import org.elis.eventsmanager.model.Event;
 import org.elis.eventsmanager.model.Role;
-import org.elis.eventsmanager.model.Ticket;
 import org.elis.eventsmanager.model.User;
 import org.elis.eventsmanager.repository.EventRepo;
-import org.elis.eventsmanager.repository.TicketRepo;
 import org.elis.eventsmanager.repository.UserRepo;
 import org.elis.eventsmanager.service.definition.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,8 +24,6 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private EventRepo eventRepo;
-    @Autowired
-    private TicketRepo ticketRepo;
 
     @Override
     public User login(LoginRequest request) {
@@ -125,12 +120,12 @@ public class UserServiceImpl implements UserService {
         }
 
         Event event = eventOptional.get();
-        Ticket ticket = new Ticket();
-        ticket.setEvent(event);
-        ticket.setUser(user);
+        List<Event> eventi = user.getTickets();
+        eventi.add(event);
+        user.setTickets(eventi);
 
         try{
-            ticketRepo.save(ticket);
+            userRepo.save(user);
         } catch (Exception e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "SQL Exception");
         }
@@ -144,11 +139,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Event> getTickets(User user) {
-        List<Ticket> tickets = ticketRepo.findAllByUser(user);
-        List<Event> events = new ArrayList<>();
-        for(Ticket t : tickets){
-            events.add(t.getEvent());
-        }
+        List<Event> events = eventRepo.findAllByUser(user);
         return events;
     }
 

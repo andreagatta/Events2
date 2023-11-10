@@ -24,7 +24,7 @@ public class FilterJwt extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String authCode = httpServletRequest.getHeader(("Authorization"));
 
-        System.out.println("request uri "+httpServletRequest.getRequestURI());
+        //System.out.println("request uri "+httpServletRequest.getRequestURI());
         if(authCode!=null&&authCode.startsWith("Bearer")){
             String token = authCode.substring(7);
             User user = tokenUtil.getUserFromToken(token);

@@ -63,11 +63,6 @@ public class TokenUtil {
         return userService.getUserByEmail(username);
     }
 
-    public LocalDate getBirthDate(String token){
-        String birthDate = getClaimsFromToken(token).get("birthDate", String.class);
-        return LocalDate.parse(birthDate, DateTimeFormatter.ofPattern("EEEE dd MMMM yyyy"));
-    }
-
     public String getRole(String token){
         return getClaimsFromToken(token).get("role", String.class);
     }

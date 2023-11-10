@@ -41,8 +41,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})
     private List<Event> events = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE})
-    private List<Ticket> tickets = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(joinColumns = @JoinColumn(name="user_id"),
+            inverseJoinColumns = @JoinColumn(name="event_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "event_id"})})
+    private List<Event> tickets = new ArrayList<>();
+
 
     //metodo che permette di automatizzare l'accesso dei vari ruoli su servizi scritti
     @Override

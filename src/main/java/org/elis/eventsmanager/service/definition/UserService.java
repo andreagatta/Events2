@@ -2,9 +2,7 @@ package org.elis.eventsmanager.service.definition;
 
 import org.elis.eventsmanager.dto.request.*;
 import org.elis.eventsmanager.model.Event;
-import org.elis.eventsmanager.model.Ticket;
 import org.elis.eventsmanager.model.User;
-import org.hibernate.mapping.Join;
 
 import java.util.List;
 
